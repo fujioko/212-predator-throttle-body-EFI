@@ -1,4 +1,5 @@
-// ------------------------------------------------------------
+// ------------------------STUPID SIMPLE EFI-----------------------------------
+// we ignored all the rules for EFI and built a simple speed density + RPM based system 
 // Engine Tachometer + PWM Control
 // Arduino Uno / Nano
 //
@@ -8,11 +9,11 @@
 // Pin 3  -> tach input (1 pulse per revolution)
 // PIN 4  -> used for RUN switch
 // Pin 5  -> used for PRIME button
-// 
+// MAP sensor data is in counts
 // Frequency range: 0–70 Hz
 // RPM range: 0–4200
 // Comments marked with " //x " are special and cannot be modified by Chat GPT
-//3/18/26
+//3/18/26  finial version of this code tested on a 212cc predator engine
 // ------------------------------------------------------------
 
 const byte pwmPin = 9;
