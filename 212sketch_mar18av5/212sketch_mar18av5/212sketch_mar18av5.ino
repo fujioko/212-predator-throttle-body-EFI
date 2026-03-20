@@ -19,7 +19,7 @@ const byte pwmPin = 9;
 const byte potPin = A1;
 const byte freqPin = 3;
 
-const uint16_t pwmFrequency = 25;
+const uint16_t pwmFrequency = 25;// frequency of the injector.  25hz works well.
 
 // ----- pulse timing -----
 volatile unsigned long lastPulseTime = 0;
@@ -27,7 +27,7 @@ volatile unsigned long pulsePeriod = 0;
 volatile bool newPulse = false;
 
 // ----- moving average filter -----
-const int AVG_COUNT = 8; //  was 4
+const int AVG_COUNT = 8; //  was 4. the higher the number the smoother the values get
 unsigned long periodBuffer[AVG_COUNT];
 int periodIndex = 0;
 bool bufferFilled = false;
@@ -69,15 +69,15 @@ const uint16_t fuelTable[RPM_BIN_COUNT][MAP_BIN_COUNT] = {
 
 // ----- adaptive MAP sampling -----
 int mapSampleTarget = 1200;
-const int MAP_SAMPLES_LOW_RPM = 3500;
-const int MAP_SAMPLES_HIGH_RPM = 500;
-const int MAP_RPM_SWITCH_LOW = 1700;
-const int MAP_RPM_SWITCH_HIGH = 1900;
+const int MAP_SAMPLES_LOW_RPM = 3500;  // sample map 3500 times at low engine speed
+const int MAP_SAMPLES_HIGH_RPM = 500;  // sample map 500 times at higher engine speeds
+const int MAP_RPM_SWITCH_LOW = 1700;   //  switch over rpm
+const int MAP_RPM_SWITCH_HIGH = 1900;   // switch over rpm
 bool fastMapMode = false;
 
 // ----- automatic RUN enable -----
-const int RUN_ENABLE_RPM = 600;
-const int RUN_DISABLE_RPM = 400;
+const int RUN_ENABLE_RPM = 600;   //  when crank speed is above 600 rpm start fuel injecton
+const int RUN_DISABLE_RPM = 400;   // when crank speed is lower than 400 rpm, stop fuel injection
 bool runLatched = false;
 
 // ------------------------------------------------------------
@@ -274,7 +274,7 @@ void loop()
   // ----- PWM duty control ------------------------
   int potValue = analogRead(potPin);
 
-  int trim = map(potValue, 0, 1023, -35, 35);
+  int trim = map(potValue, 0, 1023, -35, 35); //  manual fuel trim adjustment.  Was +-35, can be changed if larger values are needed.
 
   int rpmIndex = findClosestIndex((int)rpm, rpmBins, RPM_BIN_COUNT);
   int mapIndex = findClosestIndex(MAP, mapBins, MAP_BIN_COUNT);
